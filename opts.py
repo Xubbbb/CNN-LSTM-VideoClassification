@@ -64,7 +64,7 @@ def parse_opts():
         default='cnnlstm',
         type=str,
         help=
-        '(cnnlstm | custom_cnnlstm | custom_cnnlstm2')
+        '(cnnlstm | custom_cnnlstm | custom_cnnlstm2 | custom_cnnlstm3')
 	parser.add_argument(
         '--n_classes',
         default=400,

@@ -6,6 +6,11 @@ def parse_opts():
 	parser.add_argument('--dataset', type=str,
 						default='uf101', help='dataset type')
 	parser.add_argument(
+		'--predict_video_path',
+		default='data/video_data/SumoWrestling/v_SumoWrestling_g01_c01.avi',
+		type=str,
+		help='Path of video to predict')
+	parser.add_argument(
 		'--root_path',
 		default='/root/data/ActivityNet',
 		type=str,
@@ -59,7 +64,7 @@ def parse_opts():
         default='cnnlstm',
         type=str,
         help=
-        '(cnnlstm | custom_cnnlstm |')
+        '(cnnlstm | custom_cnnlstm | custom_cnnlstm2')
 	parser.add_argument(
         '--n_classes',
         default=400,

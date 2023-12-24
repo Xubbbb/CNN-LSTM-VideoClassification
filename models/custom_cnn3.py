@@ -24,8 +24,8 @@ class CustomCNN(nn.Module):
         self.dropout = nn.Dropout(0.5)
         
         # Fully connected layers
-        self.fc1 = nn.Linear(20736, 2048)  # Adjust the input features
-        self.fc2 = nn.Linear(2048, num_classes)
+        self.fc1 = nn.Linear(16384, 1024)  # Adjust the input features
+        self.fc2 = nn.Linear(1024, num_classes)
 
     def forward(self, x):
         # Convolutional layers

@@ -9,27 +9,31 @@ import os
 import random
 import numpy as np
 from utils import AverageMeter, calculate_accuracy
+# mixed precision
+from torch.cuda.amp import autocast, GradScaler
 
 def train_epoch(model, data_loader, criterion, optimizer, epoch, log_interval, device):
     model.train()
+    scaler = GradScaler()
  
     train_loss = 0.0
     losses = AverageMeter()
     accuracies = AverageMeter()
     for batch_idx, (data, targets) in enumerate(data_loader):
         data, targets = data.to(device), targets.to(device)
-        outputs = model(data)
-
-        loss = criterion(outputs, targets)
-        acc = calculate_accuracy(outputs, targets)
+        optimizer.zero_grad()
+        with autocast():
+            outputs = model(data)
+            loss = criterion(outputs, targets)
+            acc = calculate_accuracy(outputs, targets)
 
         train_loss += loss.item()
         losses.update(loss.item(), data.size(0))
         accuracies.update(acc, data.size(0))
-
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+        
+        scaler.scale(loss).backward()
+        scaler.step(optimizer)
+        scaler.update()
 
         if (batch_idx + 1) % log_interval == 0:
             avg_loss = train_loss / log_interval

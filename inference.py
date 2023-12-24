@@ -59,7 +59,7 @@ def infer_video(video_path, model, device, transform, num_frames):
     
 if __name__ == "__main__":
     opt = parse_opts()
-    print(opt)
+    # print(opt)
     device = torch.device("cpu")
     model = generate_model(opt, device)
     

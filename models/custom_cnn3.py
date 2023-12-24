@@ -24,26 +24,21 @@ class CustomCNN(nn.Module):
         self.dropout = nn.Dropout(0.5)
         
         # Fully connected layers
-        self.fc1 = nn.Linear(1024 * 2 * 2, 2048)  # Adjust the input features
+        self.fc1 = nn.Linear(20736, 2048)  # Adjust the input features
         self.fc2 = nn.Linear(2048, num_classes)
 
     def forward(self, x):
-        # Applying convolutions, batch normalization, and relu activation
-        x = F.relu(self.bn1(self.conv1(x)))
+        # Convolutional layers
+        x = self.pool(F.relu(self.bn1(self.conv1(x))))
         x = self.pool(F.relu(self.bn2(self.conv2(x))))
-        x = F.relu(self.bn3(self.conv3(x)))
-        
-        # Implementing a residual connection
-        residual = x
+        x = self.pool(F.relu(self.bn3(self.conv3(x))))
         x = self.pool(F.relu(self.bn4(self.conv4(x))))
-        x += residual  # Adding the residual
-
         x = self.pool(F.relu(self.bn5(self.conv5(x))))
-
-        # Flattening the layer
+        
+        # Flatten the layer
         x = x.view(x.size(0), -1)
-
-        # Applying fully connected layers
+        
+        # Fully connected layers
         x = F.relu(self.fc1(x))
         x = self.dropout(x)
         x = self.fc2(x)

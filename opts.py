@@ -46,7 +46,7 @@ def parse_opts():
 		help='Log interval for showing training loss')
 	parser.add_argument(
 		'--save_interval',
-		default=2,
+		default=20,
 		type=int,
 		help='Model saving interval')
 	parser.add_argument(
